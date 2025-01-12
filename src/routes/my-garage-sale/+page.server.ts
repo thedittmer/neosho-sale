@@ -2,12 +2,13 @@ import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import PocketBase from 'pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
 
 const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 
 async function initPocketBase() {
     try {
-        await pb.admins.authWithPassword('dittmer@hey.com', 'eCMcEQ7ppx62BcVUXnpN');
+        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
     } catch (err) {
         console.error('PocketBase authentication failed:', err);
         throw error(500, 'Database connection failed');
@@ -51,14 +52,14 @@ export const actions = {
                         body: formData.get('body') || '',
                         expires_at: formData.get('expires_at')
                     });
-                    
+
                     const recoveryLink = `${PUBLIC_POCKETBASE_URL}/my-garage-sale?id=${record.id}`;
                     record = await pb.collection('garage_sales').update(record.id, {
                         recovery_link: recoveryLink
                     });
-                    
+
                     console.log('[Server] Created record:', record);
-                    
+
                     return {
                         type: "success",
                         data: record.id
@@ -66,12 +67,12 @@ export const actions = {
 
                 case '2':
                     if (!listingId) throw error(400, 'Missing listing ID');
-                    
+
                     record = await pb.collection('garage_sales').update(listingId as string, {
                         street_address: formData.get('street_address'),
                         map_coordinates: formData.get('map_coordinates')
                     });
-                    
+
                     return {
                         type: "success",
                         data: record.id
@@ -79,15 +80,15 @@ export const actions = {
 
                 case '3':
                     if (!listingId) throw error(400, 'Missing listing ID');
-                    
+
                     const photos = formData.getAll('photos');
                     if (photos.length > 0) {
                         const photoFormData = new FormData();
                         photos.forEach(photo => photoFormData.append('photos', photo));
                         record = await pb.collection('garage_sales').update(listingId as string, photoFormData);
-                        
+
                         console.log('[Server] Updated record with photos:', record);
-                        
+
                         return {
                             type: "success",
                             data: {
@@ -97,7 +98,7 @@ export const actions = {
                             }
                         };
                     }
-                    
+
                     return {
                         type: "success",
                         data: {
