@@ -44,7 +44,7 @@
   <!-- Website Branding -->
   <div class="text-center py-2 {isDarkMode ? 'bg-gray-800' : 'bg-yellow-50'}">
     <p class="text-sm font-medium {isDarkMode ? 'text-gray-300' : 'text-gray-700'}">
-      Visit us at <a href="https://www.neosho.sale" class="font-bold {isDarkMode ? 'text-yellow-500 hover:text-yellow-400' : 'text-yellow-600 hover:text-yellow-700'}">neosho.sale</a>
+      Welcome to <a href="https://www.neosho.sale" class="font-bold {isDarkMode ? 'text-yellow-500 hover:text-yellow-400' : 'text-yellow-600 hover:text-yellow-700'}">neosho.sale</a>
     </p>
   </div>
 
