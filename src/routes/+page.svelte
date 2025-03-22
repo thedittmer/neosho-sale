@@ -3,7 +3,7 @@
   import { Card, CardContent, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { onMount } from 'svelte';
   import type { PageData } from './$types';
-  import { Sun, Moon } from 'lucide-svelte';
+  import { Sun, Moon, Phone, MessageSquare } from 'lucide-svelte';
   export let data: PageData;
 
   let isDarkMode = false;
@@ -22,6 +22,9 @@
   function toggleTheme() {
     isDarkMode = !isDarkMode;
   }
+
+  const address = "12687 Gateway Dr, Neosho, MO 64850";
+  const phoneNumber = "417-312-1469";
 </script>
 
 <svelte:head>
@@ -38,6 +41,26 @@
 </svelte:head>
 
 <div class="min-h-screen transition-colors duration-200 {isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}">
+  <!-- Fixed Contact Buttons -->
+  <div class="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
+    <Button
+      size="lg"
+      class="{isDarkMode ? 'bg-yellow-500 hover:bg-yellow-600 text-gray-900' : 'bg-yellow-600 hover:bg-yellow-700 text-white'} font-bold"
+      on:click={() => window.location.href = `tel:${phoneNumber}`}
+    >
+      <Phone class="mr-2 h-5 w-5" />
+      Call Us
+    </Button>
+    <Button
+      size="lg"
+      class="{isDarkMode ? 'bg-yellow-500 hover:bg-yellow-600 text-gray-900' : 'bg-yellow-600 hover:bg-yellow-700 text-white'} font-bold"
+      on:click={() => window.location.href = `sms:${phoneNumber}`}
+    >
+      <MessageSquare class="mr-2 h-5 w-5" />
+      Text Us
+    </Button>
+  </div>
+
   <!-- Theme Toggle Button -->
   <div class="fixed top-4 right-4 z-50">
     <Button
@@ -57,6 +80,16 @@
 
   <!-- Hero Section with Map -->
   <div class="container mx-auto px-4 py-8">
+    <!-- Prominent Address Display -->
+    <div class="text-center mb-8 p-4 rounded-lg {isDarkMode ? 'bg-gray-800' : 'bg-yellow-50'}">
+      <h2 class="text-2xl md:text-3xl font-bold {isDarkMode ? 'text-yellow-500' : 'text-yellow-600'} mb-2">
+        Visit Us At:
+      </h2>
+      <p class="text-xl md:text-2xl font-bold {isDarkMode ? 'text-white' : 'text-gray-900'}">
+        {address}
+      </p>
+    </div>
+
     <div class="aspect-video w-full overflow-hidden rounded-lg shadow-2xl mb-8">
       <iframe 
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3191.330351891743!2d-94.41250031924922!3d36.88244460127161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87c8600e1015df45%3A0x2bf9e4f2637d5e5!2s12687%20Gateway%20Dr%2C%20Neosho%2C%20MO%2064850!5e0!3m2!1sen!2sus!4v1742683360928!5m2!1sen!2sus" 
@@ -77,10 +110,38 @@
         A Must-Stop Location on Your Neosho Garage Sale Route!
       </p>
       <div class="text-lg {isDarkMode ? 'text-gray-400' : 'text-gray-600'}">
-        <p>📍 12687 Gateway Dr, Neosho, MO 64850</p>
+        <p class="font-bold text-xl mb-2">📍 {address}</p>
         <p class="mt-2">⏰ April 4-5, 2025</p>
         <p class="mt-2">🕒 8 AM - 4 PM Both Days</p>
         <p class="mt-2">🚗 Perfect Stop on Highway 60</p>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="text-center mb-12 p-6 rounded-lg {isDarkMode ? 'bg-gray-800' : 'bg-yellow-50'}">
+      <h2 class="text-2xl font-bold {isDarkMode ? 'text-yellow-500' : 'text-yellow-600'} mb-4">
+        Questions? Contact Us!
+      </h2>
+      <p class="text-xl font-bold {isDarkMode ? 'text-white' : 'text-gray-900'} mb-4">
+        {phoneNumber}
+      </p>
+      <div class="flex justify-center gap-4">
+        <Button
+          size="lg"
+          class="{isDarkMode ? 'bg-yellow-500 hover:bg-yellow-600 text-gray-900' : 'bg-yellow-600 hover:bg-yellow-700 text-white'} font-bold"
+          on:click={() => window.location.href = `tel:${phoneNumber}`}
+        >
+          <Phone class="mr-2 h-5 w-5" />
+          Call Us
+        </Button>
+        <Button
+          size="lg"
+          class="{isDarkMode ? 'bg-yellow-500 hover:bg-yellow-600 text-gray-900' : 'bg-yellow-600 hover:bg-yellow-700 text-white'} font-bold"
+          on:click={() => window.location.href = `sms:${phoneNumber}`}
+        >
+          <MessageSquare class="mr-2 h-5 w-5" />
+          Text Us
+        </Button>
       </div>
     </div>
 
