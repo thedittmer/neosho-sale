@@ -117,6 +117,15 @@
     </p>
   </div>
 
+  <!-- Rain Check Alert Banner -->
+  {#if data.metadata.rainCheck?.isPostponed}
+    <div class="p-4 my-4 sm:my-6 rounded-lg text-center font-bold text-white bg-red-600 animate-pulse animate-on-scroll">
+      <h2 class="text-2xl sm:text-3xl mb-2">⚠️ POSTPONED DUE TO WEATHER ⚠️</h2>
+      <p class="text-lg sm:text-xl">{data.metadata.rainCheck.message}</p>
+      <p class="mt-2">Please check back for the updated date and time.</p>
+    </div>
+  {/if}
+
   <!-- Bitcoin Promotion Banner -->
   <Card class="mb-4 sm:mb-8 bg-gradient-to-r from-orange-500 to-yellow-500 animate-on-scroll">
     <div class="p-4 sm:p-6 text-white">
@@ -204,15 +213,19 @@
     <!-- Hero Content -->
     <div class="text-center mb-12 animate-on-scroll">
       <h1 class="text-4xl md:text-6xl font-bold gradient-text mb-4">
-        NEOSHO CITY-WIDE GARAGE SALE
+        {#if data.metadata.rainCheck?.isPostponed}POSTPONED:{/if} NEOSHO CITY-WIDE GARAGE SALE
       </h1>
       <p class="text-xl md:text-2xl {isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-6">
         A Must-Stop Location on Your Neosho Garage Sale Route!
       </p>
       <div class="text-lg {isDarkMode ? 'text-gray-400' : 'text-gray-600'}">
         <p class="font-bold text-xl mb-2 animate-float">📍 {address}</p>
-        <p class="mt-2">⏰ April 4-5, 2025</p>
-        <p class="mt-2">🕒 8 AM - 4 PM Both Days</p>
+        {#if data.metadata.rainCheck?.isPostponed}
+          <p class="mt-2 text-red-500 font-bold">⚠️ Date Postponed - Check Back Soon for New Date ⚠️</p>
+        {:else}
+          <p class="mt-2">⏰ April 4-5, 2025</p>
+          <p class="mt-2">🕒 8 AM - 4 PM Both Days</p>
+        {/if}
         <p class="mt-2">🚗 Perfect Stop on Highway 60</p>
       </div>
     </div>
@@ -247,6 +260,23 @@
 
     <!-- SEO Rich Content -->
     <div class="prose {isDarkMode ? 'prose-invert' : ''} max-w-none mb-12 animate-on-scroll">
+      {#if data.metadata.rainCheck?.isPostponed}
+        <div class="p-6 border-2 border-red-500 rounded-lg mb-6">
+          <h2 class="text-2xl font-bold text-red-500 mb-4">Important Update: Event Postponed</h2>
+          <p class="text-lg">
+            Due to inclement weather, our garage sale has been temporarily postponed.
+            We apologize for any inconvenience this may cause.
+          </p>
+          <p class="text-lg mt-4">
+            We want to ensure everyone can shop safely and comfortably. Please check back here
+            for the new date announcement, which will be posted as soon as it's confirmed.
+          </p>
+          <p class="text-lg mt-4">
+            If you have any questions or need immediate assistance, please contact us at {phoneNumber}.
+          </p>
+        </div>
+      {/if}
+      
       <p class="text-lg">
         Looking for a convenient stop during the Neosho city-wide garage sale? 
         Our location on Gateway Drive is the perfect spot to check out quality items 
@@ -256,8 +286,7 @@
       <p class="text-lg">
         Located right on Highway 60, we're easy to find and offer plenty of parking. 
         Don't miss out on our selection of quality items - it's a great addition to 
-        your garage sale shopping route. The event takes place rain or shine, so 
-        come prepared for great deals!
+        your garage sale shopping route. {#if data.metadata.rainCheck?.isPostponed}Please check back for our new date once the weather improves.{:else}The event takes place rain or shine, so come prepared for great deals!{/if}
       </p>
     </div>
 
@@ -309,6 +338,20 @@
 
     <!-- Call to Action -->
     <div class="text-center mt-12 animate-on-scroll">
+      {#if data.metadata.rainCheck?.isPostponed}
+        <div class="mb-6">
+          <p class="text-xl {isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-4">
+            Would you like to receive notification when we announce the new date?
+          </p>
+        </div>
+        <Button 
+          size="lg" 
+          class="{isDarkMode ? 'bg-yellow-500 hover:bg-yellow-600 text-gray-900' : 'bg-yellow-600 hover:bg-yellow-700 text-white'} font-bold hover-lift mr-4"
+          on:click={() => window.location.href = `sms:${phoneNumber}?body=Please notify me when the Neosho garage sale is rescheduled.`}
+        >
+          Get Updates via Text <MessageSquare class="ml-2 h-4 w-4" />
+        </Button>
+      {/if}
       <Button 
         size="lg" 
         class="{isDarkMode ? 'bg-yellow-500 hover:bg-yellow-600 text-gray-900' : 'bg-yellow-600 hover:bg-yellow-700 text-white'} font-bold hover-lift"
